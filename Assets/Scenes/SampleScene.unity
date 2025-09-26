@@ -242,7 +242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snakeHeadPrefab: {fileID: 4904263255975100033, guid: 4c40ef7f39ab6424b8e5671c754de482, type: 3}
   snakeBodyPrefab: {fileID: 4904263255975100033, guid: 3e8104fa8bd4c094a9c471eb4579cfd0, type: 3}
-  speed: 1
+  speed: 4
   gridWidth: 40
   gridHeight: 30
   initialSpawnX: 10

@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using JetBrains.Annotations;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -9,163 +12,162 @@ public class SnakeController : MonoBehaviour
     private GameObject snakeHeadPrefab;
     [SerializeField]
     private GameObject snakeBodyPrefab;
+    [SerializeField]
+    private GameObject snakeFoodPrefab;
 
 
     [Header("gameplay specifics customazation..!")]
-    [SerializeField] 
+    [SerializeField]
     private float speed = 1.0f;
-     
+
     [SerializeField]
     private int gridWidth = 40; //40
     [SerializeField]
-    private int  gridHeight = 30; //30
+    private int gridHeight = 30; //30
     [SerializeField]
-    private int initialSpawnX = 10 ; // within the gridf   
+    private int initialSpawnX = 10; // within the gridf   
     [SerializeField]
     private int initialSpawnY = 15;   //within the grid
 
 
+    //input 
+    float horizontal;
+    float vertical;
+
+
     //il instnace
-    float worldHight;
+    float worldHeight;
     float worldWidth;
 
 
 
     //grid related  ;
     int[,] grid ;  //    5 head    3 body   10 food  15 special fodd  0 empty    -1 barrier
-    private float cellSizeX ; //calcultated not given 
+    private float cellSizeX; //calcultated not given 
     private float cellSizeY;
 
-    //runtime intances
-    private GameObject snakeHeadInstance;
+    // runtime thingies
 
-    //runtime varibales
-    private MyDirection direction = MyDirection.right;
-    private MyDirection bufferDirection = MyDirection.right;
-    private float horizontal;
-    private float vertical;
+    [SerializeField]
+    MyDirection direction = MyDirection.right;
 
-    private (float x, float y) HeadPosition = (0, 0);
-
-    private (float x, float y) oldHeadPosition  ;  
-
-    float step = 0; 
+    float timer = 0;
+    int timeUntilMove = 100;
+    List<(int x , int y)> snakeArray = new List<(int x, int y)>();
 
 
-
+    GameObject SnakeHead;
     private void Awake()
     {
+        worldHeight= Camera.main.orthographicSize * 2f;
+        worldWidth = worldHeight* Camera.main.aspect;
 
+        cellSizeX = worldWidth / gridWidth; 
+        cellSizeY = worldHeight/ gridHeight;
 
-        grid = new int[gridWidth, gridHeight];
+        grid = new int[gridHeight , gridWidth]; 
 
-        //getting world settings
-
-        Camera camera = Camera.main;
-
-        worldHight = camera.orthographicSize * 2f;
-        worldWidth = worldHight * camera.aspect;
-
-        cellSizeX = worldWidth / gridWidth;
-        cellSizeY = worldHight / gridHeight;
     }
-        
+
     private void Start()
     {
-        HeadPosition = (initialSpawnX, initialSpawnY);
-        snakeHeadInstance = Instantiate(snakeHeadPrefab, CellToWorld(HeadPosition.x , HeadPosition.y), Quaternion.identity);
-        snakeHeadInstance.transform.localScale = new Vector3(cellSizeX, cellSizeY, 1);  
-        //Debug.Log($"{worldHight}+   {worldWidth}");
+        
+        SnakeHead = Instantiate(snakeHeadPrefab , CellToWorld(0 , 0) , Quaternion.identity );
+        grid[0, 0] = 1;
+        snakeArray.Add((0 , 0)); 
+        SnakeHead.transform.localScale = new Vector3(cellSizeX , cellSizeY, 0);
+
     }
 
     private void Update()
     {
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
+
+        if (direction == MyDirection.right || direction == MyDirection.left)
+        {
+            if (vertical == 1) 
+            { 
+                
+                direction = MyDirection.up;
+                GenerateFood();
+            
+            }
+
+
+            if (vertical == -1) direction = MyDirection.down;
+        }
+
+        if (direction == MyDirection.up || direction == MyDirection.down)
+        {
+            if (horizontal == 1) direction = MyDirection.right;
+            if (horizontal == -1) direction = MyDirection.left;
+        }
+
+        Debug.Log(direction); 
     }
     private void FixedUpdate()
     {
-        if ((direction == MyDirection.up || direction == MyDirection.down) && horizontal != 0)
-        {
-
-            bufferDirection = (horizontal == 1) ? MyDirection.right : MyDirection.left;
-        }
-
-        if ((direction == MyDirection.left || direction == MyDirection.right) && vertical != 0)
-        {
-
-            bufferDirection = (vertical == 1) ? MyDirection.up : MyDirection.down;
-        }
-
-
-        if (direction == MyDirection.right) HeadPosition.x += 1 * Time.fixedDeltaTime;
-        if (direction == MyDirection.left) HeadPosition.x -= 1 * Time.fixedDeltaTime;
-        if (direction == MyDirection.up) HeadPosition.y += 1 * Time.fixedDeltaTime;
-        if (direction == MyDirection.down) HeadPosition.y -= 1 * Time.fixedDeltaTime;
-
-
-
-
-
-        //step += Time.fixedDeltaTime;
-        //if (step >= 1)
-        //{
-        //    step = 0;
-        //    if (direction == MyDirection.right)  HeadPosition.x += 1;
-        //    if (direction == MyDirection.left) HeadPosition.x -= 1;
-        //    if (direction == MyDirection.up) HeadPosition.y += 1;
-        //    if (direction == MyDirection.down) HeadPosition.y -= 1;
-        //}
-
-
-//super comments ??
-
-        if (Mathf.Abs(HeadPosition.x -oldHeadPosition.x) >= 1f ){
-
-            Debug.Log(" Cell passed horiz "); 
-            HeadPosition.x = (int)Math.Round(HeadPosition.x);
-
-            oldHeadPosition.x = HeadPosition.x; 
-            SwitchDirection(); }
-
-
-
-        if (Mathf.Abs(HeadPosition.y - oldHeadPosition.y) >= 1f)
-        {
-            Debug.Log(" Cell passed vert ");
-            HeadPosition.y = (int)Math.Round(HeadPosition.y);
-
-            oldHeadPosition.y = HeadPosition.y;
-            SwitchDirection();
-        }
-
-        Vector3 currentPost = (Vector3)CellToWorld(HeadPosition.x, HeadPosition.y);
-
-        snakeHeadInstance.transform.position = new Vector3(currentPost.x , currentPost.y, 0); 
-
-
-
+        MoveSnake(SnakeHead); 
     }
 
-    private void SwitchDirection()
+    private Vector3 CellToWorld( int x , int y)
     {
-        Debug.Log("Trying to change direction ?? " + direction + "  buffered =  " + bufferDirection); 
-        direction = bufferDirection; 
+        Vector3 vec3 = Vector3.zero;
+
+        vec3.x = x * cellSizeX - (float)worldWidth/2  + cellSizeX/2;
+        vec3.y = y * cellSizeY - (float)worldHeight/2 +  cellSizeY/2 ; 
+
+        return vec3 ;
     }
 
-
-
-    //helper methods
-    private Vector2 CellToWorld(float x, float y) //noramlent int ema injetbo
+    private void MoveSnake(GameObject obj)
     {
-        float x1 = x - (gridWidth-1)/2f  ;
-        //Debug.Log("wiw " + (gridWidth - 1) / 2);
-        float y1 = y - (gridHeight-1)/2f ;
-        //Debug.Log($"cell size x:    {cellSizeX} y: {cellSizeY}");
-        return new Vector2(x1 * cellSizeX , y1 * cellSizeY ) ;
+
+        if (timer * speed < timeUntilMove)
+        {
+            timer++;
+        }
+        else
+        {
+            timer = 0;
+            if (direction == MyDirection.right) obj.transform.Translate(cellSizeX, 0, 0);
+            else if (direction == MyDirection.left) obj.transform.Translate(-cellSizeX, 0, 0);
+            else if (direction == MyDirection.up) obj.transform.Translate(0, cellSizeY, 0);
+            else if (direction == MyDirection.down) obj.transform.Translate(0, -cellSizeY, 0);
+            
+        }
     }
 
-}
+    private void GenerateFood()
+    {
+        List< ( int x , int y )>  zeroList = new List< ( int x , int y )>();
+
+        for ( int i = 0; i < gridHeight; i++)
+        {
+        {
+            for ( int j = 0; j < gridWidth; j++)
+            {
+                if(grid[i, j] == 0) zeroList.Add( ( i , j ) );
+            }
+        }
+
+        int randomIndex = UnityEngine.Random.Range( 0, zeroList.Count );
+
+        var ( x , y) = zeroList[randomIndex];
+
+        grid[x, y] = 2;
+
+            GameObject food = Instantiate(snakeFoodPrefab, CellToWorld(x, y), Quaternion.identity);
+
+            food.transform.localScale = new Vector3(cellSizeX, cellSizeY, 0);
+
+        }
+
+
+    }
+
+} 
 
 public enum MyDirection
 {
