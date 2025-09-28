@@ -126,6 +126,8 @@ public class SnakeController : MonoBehaviour
 
     private void MoveSnake()
     {
+
+        int x1, y1;
         //reletex to fix updated which is standard to 0.02 s across all  hardwards 
         if (timer * speed < timeUntilMove)
         {
@@ -138,13 +140,17 @@ public class SnakeController : MonoBehaviour
 
             if (direction == MyDirection.right)
             {
+                
+                if (snakeArray[^1].x + 1 == gridWidth) x1 = 0;
+                else x1 = snakeArray[^1].x+1;
 
+                y1 = snakeArray[^1].y;
 
-                if (grid[snakeArray[^1].x + 1, snakeArray[^1].y] == 0) ResolveEmptyAhead(snakeArray[^1].x + 1 , snakeArray[^1].y);      // the head always last 
+                if (grid[x1, y1] == 0) ResolveEmptyAhead(x1, y1);      // the head always last 
 
-                else if (grid[snakeArray[^1].x + 1, snakeArray[^1].y] == 1) ResolveSnakeAhead(snakeArray[^1].x + 1, snakeArray[^1].y);
+                else if (grid[x1, y1] == 1) ResolveSnakeAhead(x1, y1);
 
-                else if (grid[snakeArray[^1].x + 1, snakeArray[^1].y] == 5) ResolveFoodAhead(snakeArray[^1].x + 1, snakeArray[^1].y);
+                else if (grid[x1, y1] == 5) ResolveFoodAhead(x1, y1);
 
 
             }
@@ -153,31 +159,52 @@ public class SnakeController : MonoBehaviour
             else if (direction == MyDirection.left) 
             {
 
-                if (grid[snakeArray[^1].x - 1, snakeArray[^1].y] == 0) ResolveEmptyAhead(snakeArray[^1].x - 1, snakeArray[^1].y);      // the head always last 
+                if (snakeArray[^1].x - 1 == -1) x1 = gridWidth-1;
+                else x1 = snakeArray[^1].x -1;
 
-                else if (grid[snakeArray[^1].x - 1, snakeArray[^1].y] == 1) ResolveSnakeAhead(snakeArray[^1].x - 1, snakeArray[^1].y);
+                y1 = snakeArray[^1].y;
 
-                else if (grid[snakeArray[^1].x - 1, snakeArray[^1].y] == 5) ResolveFoodAhead(snakeArray[^1].x - 1, snakeArray[^1].y);
+
+                if (grid[x1, y1] == 0) ResolveEmptyAhead(x1, y1);      // the head always last 
+
+                else if (grid[x1, y1] == 1) ResolveSnakeAhead(x1, y1);
+
+                else if (grid[x1, y1] == 5) ResolveFoodAhead(x1, y1);
+
 
             }
 
             else if (direction == MyDirection.up) 
             {
 
-                if (grid[snakeArray[^1].x , snakeArray[^1].y + 1] == 0) ResolveEmptyAhead(snakeArray[^1].x , snakeArray[^1].y +1);      // the head always last 
+                if (snakeArray[^1].y + 1 == gridHeight) y1 = 0;
+                else y1 = snakeArray[^1].y + 1;
 
-                else if (grid[snakeArray[^1].x , snakeArray[^1].y+1] == 1) ResolveSnakeAhead(snakeArray[^1].x , snakeArray[^1].y+1);
+                x1 = snakeArray[^1].x;
 
-                else if (grid[snakeArray[^1].x, snakeArray[^1].y+1] == 5) ResolveFoodAhead(snakeArray[^1].x , snakeArray[^1].y+1);
+                if (grid[x1, y1] == 0) ResolveEmptyAhead(x1, y1);      // the head always last 
+
+                else if (grid[x1, y1] == 1) ResolveSnakeAhead(x1, y1);
+
+                else if (grid[x1, y1] == 5) ResolveFoodAhead(x1, y1);
+
             }
 
             else if (direction == MyDirection.down) 
             {
-                if (grid[snakeArray[^1].x, snakeArray[^1].y - 1] == 0) ResolveEmptyAhead(snakeArray[^1].x, snakeArray[^1].y - 1);      // the head always last 
 
-                else if (grid[snakeArray[^1].x, snakeArray[^1].y - 1] == 1) ResolveSnakeAhead(snakeArray[^1].x, snakeArray[^1].y - 1);
+                if (snakeArray[^1].y - 1 == -1) y1 = gridHeight-1;
+                else y1 = snakeArray[^1].y - 1;
 
-                else if (grid[snakeArray[^1].x, snakeArray[^1].y - 1] == 5) ResolveFoodAhead(snakeArray[^1].x, snakeArray[^1].y - 1);
+                x1 = snakeArray[^1].x;
+
+
+                if (grid[x1, y1] == 0) ResolveEmptyAhead(x1, y1);      // the head always last 
+
+                else if (grid[x1, y1] == 1) ResolveSnakeAhead(x1, y1);
+
+                else if (grid[x1, y1] == 5) ResolveFoodAhead(x1, y1);
+
             }
 
 
@@ -206,11 +233,13 @@ public class SnakeController : MonoBehaviour
 
         grid[x, y] = 5; // 5 for food
 
-            GameObject food = Instantiate(snakeFoodPrefab, CellToWorld(x, y), Quaternion.identity);
+        GameObject food = Instantiate(snakeFoodPrefab, CellToWorld(x, y), Quaternion.identity);
 
-            food.transform.localScale = new Vector3(cellSizeX, cellSizeY, 0);
+        
 
-            currentFood = food;
+        food.transform.localScale = new Vector3(cellSizeX, cellSizeY, 0);
+
+        currentFood = food;
     }
 
 
@@ -275,6 +304,7 @@ public class SnakeController : MonoBehaviour
 
         GameObject newHead = Instantiate(snakeHeadPrefab, CellToWorld(x, y), Quaternion.identity);
         renderedSnakeArray[^1].GetComponent<SpriteRenderer>().color = Color.blue;
+        newHead.transform.localScale = new Vector3(cellSizeX,cellSizeY,0);
         renderedSnakeArray.Add(newHead);
 
         //generate food 
