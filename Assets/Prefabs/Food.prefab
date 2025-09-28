@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 200523720899341848}
   - component: {fileID: 4469202145303215003}
   m_Layer: 0
-  m_Name: Snake Head 1
+  m_Name: Food
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,8 +76,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -7832214784768987486, guid: 9997599be6308c2429a1b45e5a930116, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Color: {r: 0.09987177, g: 0.6377357, b: 0.16967514, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
