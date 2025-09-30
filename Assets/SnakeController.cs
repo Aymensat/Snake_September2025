@@ -2,12 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Runtime.ConstrainedExecution;
 using JetBrains.Annotations;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class SnakeController : MonoBehaviour
 {
+
+    [SerializeField]
+    private UIController myUI; 
+
     [Header("Prefab objects")]
     [SerializeField]
     private GameObject snakeHeadPrefab;
@@ -57,6 +62,8 @@ public class SnakeController : MonoBehaviour
     List <GameObject> renderedSnakeArray = new List<GameObject> ();
 
 
+    bool playing; 
+
     GameObject SnakeHead;
     private GameObject currentFood;
 
@@ -77,14 +84,8 @@ public class SnakeController : MonoBehaviour
 
     private void Start()
     {
-        
-        SnakeHead = Instantiate(snakeHeadPrefab , CellToWorld(0 , 0) , Quaternion.identity );
-        grid[0, 0] = 1;
-        snakeArray.Add((0 , 0)); 
-        renderedSnakeArray.Add( SnakeHead );
-        SnakeHead.transform.localScale = new Vector3(cellSizeX , cellSizeY, 0);
-        GenerateFood();
 
+        ResetGame();
 
     }
 
@@ -110,6 +111,7 @@ public class SnakeController : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        if (!playing) return;
         MoveSnake(); 
 
     }
@@ -132,7 +134,6 @@ public class SnakeController : MonoBehaviour
         if (timer * speed < timeUntilMove)
         {
             timer += Time.fixedDeltaTime;   //0.02 s = 20ms
-            Debug.Log(timer);
         }
         else
         {
@@ -320,10 +321,63 @@ public class SnakeController : MonoBehaviour
 
     private void ResolveSnakeAhead(int x, int y)
     {
-        // TO DO
+        Time.timeScale = 0;
+        playing = false; 
+        myUI.ShowGameOverPanel();
+
     }
 
     //TO DO warping/OOB manamagent
+
+
+    public void ResetGame()
+    {
+        //clearing the menu
+
+        myUI.HideGameOverPanel();
+
+        //clearing grid 
+        for (int i = 0; i < gridWidth; i++)
+        {
+            for (int j = 0; j < gridHeight; j++)
+            {
+                grid[i, j] = 0;
+            }
+        }
+
+
+        //clearing array 
+        snakeArray.Clear();
+
+        //clearing GOs
+        for (int i = 0; i < renderedSnakeArray.Count; i++)
+        {
+            Destroy(renderedSnakeArray[i]);
+        }
+
+        Destroy(currentFood);
+
+        renderedSnakeArray.Clear();
+
+
+        Time.timeScale = 1;
+        Invoke("Begining", 0.5f); 
+
+
+    }
+
+
+    private void Begining()
+    {
+        SnakeHead = Instantiate(snakeHeadPrefab, CellToWorld(0, 0), Quaternion.identity);
+        grid[0, 0] = 1;
+        snakeArray.Add((0, 0));
+        renderedSnakeArray.Add(SnakeHead);
+        SnakeHead.transform.localScale = new Vector3(cellSizeX, cellSizeY, 0);
+        GenerateFood();
+        playing = true; 
+
+    }
 
 
 } 
