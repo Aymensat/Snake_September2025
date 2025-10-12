@@ -98,7 +98,7 @@ public class SnakeController : MonoBehaviour
         {
             if (vertical == 1)  direction = MyDirection.up;
 
-            if (vertical == -1) direction = MyDirection.down;
+            if (vertical == -1) direction = MyDirection.down; // fema mochkla mazelt fil direction 
         }
 
         if (direction == MyDirection.up || direction == MyDirection.down)
@@ -149,7 +149,7 @@ public class SnakeController : MonoBehaviour
 
                 if (grid[x1, y1] == 0) ResolveEmptyAhead(x1, y1);      // the head always last 
 
-                else if (grid[x1, y1] == 1) ResolveSnakeAhead(x1, y1);
+                else if (grid[x1, y1] == 1) ResolveSnakeAhead(x1, y1);  // TODO ! feme mochkla snake o head yupdato fard wa9t , false +
 
                 else if (grid[x1, y1] == 5) ResolveFoodAhead(x1, y1);
 
@@ -308,6 +308,9 @@ public class SnakeController : MonoBehaviour
         newHead.transform.localScale = new Vector3(cellSizeX,cellSizeY,0);
         renderedSnakeArray.Add(newHead);
 
+        //add score 
+        myUI.AddScore();
+
         //generate food 
 
         Destroy(currentFood);
@@ -361,7 +364,12 @@ public class SnakeController : MonoBehaviour
 
 
         Time.timeScale = 1;
+
+        //reset score
+        myUI.ResetScore();
         Invoke("Begining", 0.5f); 
+
+
 
 
     }
