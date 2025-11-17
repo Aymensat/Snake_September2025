@@ -1,3 +1,4 @@
+using System;
 using System.Security.Cryptography.X509Certificates;
 using TMPro;
 using UnityEngine;
@@ -7,7 +8,7 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour
 {
 
-    public static UIController instance; 
+    public static UIController instance;
 
     [SerializeField]
     private GameObject gameOverPanel;
@@ -21,8 +22,12 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private GameObject mainMenu;
 
+    public GameObject AISettings;
+    public GameObject HumanSetting; //not used for now , just ON.OFf the AI one
+
     public Slider SpawnXSLide;
-    public Slider SpawnYSLide; 
+    public Slider SpawnYSLide;
+
 
 
 
@@ -76,7 +81,7 @@ public class UIController : MonoBehaviour
 
     public void showSettingsMenu()
     {
-
+        showHumanSettings();
         settingMenu.SetActive(true);
         mainMenu.SetActive(false);
     }
@@ -87,6 +92,19 @@ public class UIController : MonoBehaviour
         mainMenu.SetActive(true);
 
     }
+
+    public void showAISEttings()
+    {
+        Debug.Log("ai setting on");
+        AISettings.SetActive(true);
+    }
+
+    public void showHumanSettings()
+    {
+        Debug.Log("ai setting off");
+        AISettings.SetActive(false);
+    }
+
 
     public void LoadHumanScene()
     {
