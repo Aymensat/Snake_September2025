@@ -738,6 +738,10 @@ MonoBehaviour:
   score: {fileID: 308356292}
   settingMenu: {fileID: 0}
   mainMenu: {fileID: 0}
+  AISettings: {fileID: 0}
+  HumanSetting: {fileID: 0}
+  SpawnXSLide: {fileID: 0}
+  SpawnYSLide: {fileID: 0}
 --- !u!1 &1000433445
 GameObject:
   m_ObjectHideFlags: 0
@@ -870,7 +874,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3fd8f968d789f0408905b69b5476fe7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myUI: {fileID: 710370062}
   snakeHeadPrefab: {fileID: 4904263255975100033, guid: 4c40ef7f39ab6424b8e5671c754de482, type: 3}
   snakeFoodPrefab: {fileID: 4904263255975100033, guid: 56b759cfab2b03a4ca05f5f311888748, type: 3}
   speed: 4
@@ -879,6 +882,7 @@ MonoBehaviour:
   initialSpawnX: 10
   initialSpawnY: 15
   direction: 3
+  myUI: {fileID: 710370062}
 --- !u!4 &1102725136
 Transform:
   m_ObjectHideFlags: 0

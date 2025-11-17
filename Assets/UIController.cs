@@ -31,22 +31,6 @@ public class UIController : MonoBehaviour
 
 
 
-    private void Awake()
-    {
-        Debug.Log("UI getting alive");
-
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
-
     public void LoadMenuScene()
     {
         SceneManager.LoadScene("MainMenuScene");

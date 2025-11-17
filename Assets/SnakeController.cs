@@ -65,6 +65,9 @@ public class SnakeController : MonoBehaviour
     GameObject SnakeHead;
     private GameObject currentFood;
 
+
+    public UIController myUI;
+
     private void Awake()
     {
         worldHeight= Camera.main.orthographicSize * 2f;
@@ -307,7 +310,7 @@ public class SnakeController : MonoBehaviour
         renderedSnakeArray.Add(newHead);
 
         //add score 
-        UIController.instance.AddScore(); 
+        myUI.AddScore(); 
 
         //generate food 
 
@@ -324,7 +327,7 @@ public class SnakeController : MonoBehaviour
     {
         Time.timeScale = 0;
         playing = false; 
-        UIController.instance.ShowGameOverPanel();
+        myUI.ShowGameOverPanel();
 
     }
 
@@ -335,7 +338,7 @@ public class SnakeController : MonoBehaviour
     {
         //clearing the menu
 
-        UIController.instance.HideGameOverPanel();
+        myUI.HideGameOverPanel();
 
         //clearing grid 
         for (int i = 0; i < gridWidth; i++)
@@ -364,7 +367,7 @@ public class SnakeController : MonoBehaviour
         Time.timeScale = 1;
 
         //reset score
-        UIController.instance.ResetScore();
+        myUI.ResetScore();
         Invoke("Begining", 0.5f); 
 
 
