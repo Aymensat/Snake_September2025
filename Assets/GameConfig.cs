@@ -18,7 +18,7 @@ public class GameConfig : MonoBehaviour
     int initialSpawnX = 0;
     int initialSpawnY = 0;
 
-
+     
 
     private void Awake()
     {

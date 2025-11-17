@@ -10,8 +10,6 @@ using UnityEngine;
 public class SnakeController : MonoBehaviour
 {
 
-    [SerializeField]
-    private UIController myUI; 
 
     [Header("Prefab objects")]
     [SerializeField]
@@ -23,16 +21,16 @@ public class SnakeController : MonoBehaviour
 
     [Header("gameplay specifics customazation..!")]
     [SerializeField]
-    private float speed = 1.0f;
+    private float speed = SettingsManager.Instance.speed; //1f
 
     [SerializeField]
-    private int gridWidth = 40; //40
+    private int gridWidth = SettingsManager.Instance.gridWidth; //40
     [SerializeField]
-    private int gridHeight = 30; //30
+    private int gridHeight = SettingsManager.Instance.gridHeight; //30
     [SerializeField]
-    private int initialSpawnX = 10; // no used , delibertly starting at 0   
+    private int initialSpawnX = SettingsManager.Instance.initialSpawnX; // no used , delibertly starting at 0   
     [SerializeField]
-    private int initialSpawnY = 15;   //  no used , delibertly starting at 0   
+    private int initialSpawnY = SettingsManager.Instance.initialSpawnY;   //  no used , delibertly starting at 0   
 
 
     //input 
@@ -149,8 +147,8 @@ public class SnakeController : MonoBehaviour
 
                 if (grid[x1, y1] == 0) ResolveEmptyAhead(x1, y1);      // the head always last 
 
-                else if (grid[x1, y1] == 1) ResolveSnakeAhead(x1, y1);  // TODO ! feme mochkla snake o head yupdato fard wa9t , false +
-
+                else if ( (grid[x1, y1] == 1) && ( (x1, y1) != (snakeArray[0].x , snakeArray[0].y))  ) ResolveSnakeAhead(x1, y1);  // TODO ! feme mochkla snake o head yupdato fard wa9t , false +
+                    
                 else if (grid[x1, y1] == 5) ResolveFoodAhead(x1, y1);
 
 
@@ -309,7 +307,7 @@ public class SnakeController : MonoBehaviour
         renderedSnakeArray.Add(newHead);
 
         //add score 
-        myUI.AddScore();
+        UIController.instance.AddScore(); 
 
         //generate food 
 
@@ -326,7 +324,7 @@ public class SnakeController : MonoBehaviour
     {
         Time.timeScale = 0;
         playing = false; 
-        myUI.ShowGameOverPanel();
+        UIController.instance.ShowGameOverPanel();
 
     }
 
@@ -337,7 +335,7 @@ public class SnakeController : MonoBehaviour
     {
         //clearing the menu
 
-        myUI.HideGameOverPanel();
+        UIController.instance.HideGameOverPanel();
 
         //clearing grid 
         for (int i = 0; i < gridWidth; i++)
@@ -366,7 +364,7 @@ public class SnakeController : MonoBehaviour
         Time.timeScale = 1;
 
         //reset score
-        myUI.ResetScore();
+        UIController.instance.ResetScore();
         Invoke("Begining", 0.5f); 
 
 

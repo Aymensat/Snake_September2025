@@ -2,11 +2,12 @@ using System.Security.Cryptography.X509Certificates;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
 
-    private static UIController instance; 
+    public static UIController instance; 
 
     [SerializeField]
     private GameObject gameOverPanel;
@@ -19,6 +20,9 @@ public class UIController : MonoBehaviour
 
     [SerializeField]
     private GameObject mainMenu;
+
+    public Slider SpawnXSLide;
+    public Slider SpawnYSLide; 
 
 
 
@@ -37,6 +41,11 @@ public class UIController : MonoBehaviour
         }
     }
 
+
+    public void LoadMenuScene()
+    {
+        SceneManager.LoadScene("MainMenuScene");
+    }
 
     public void ShowGameOverPanel()
     {
@@ -79,7 +88,7 @@ public class UIController : MonoBehaviour
 
     }
 
-    public void Play()
+    public void LoadHumanScene()
     {
         SceneManager.LoadScene("GameScene");
     }
