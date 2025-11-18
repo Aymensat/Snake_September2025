@@ -19,18 +19,12 @@ public class SnakeController : MonoBehaviour
     private GameObject snakeFoodPrefab;
 
 
-    [Header("gameplay specifics customazation..!")]
-    [SerializeField]
-    private float speed = SettingsManager.Instance.speed; //1f
-
-    [SerializeField]
-    private int gridWidth = SettingsManager.Instance.gridWidth; //40
-    [SerializeField]
-    private int gridHeight = SettingsManager.Instance.gridHeight; //30
-    [SerializeField]
-    private int initialSpawnX = SettingsManager.Instance.initialSpawnX; // no used , delibertly starting at 0   
-    [SerializeField]
-    private int initialSpawnY = SettingsManager.Instance.initialSpawnY;   //  no used , delibertly starting at 0   
+    [Header("gameplay specifics customization..!")]
+    [SerializeField] private float speed;
+    [SerializeField] private int gridWidth;
+    [SerializeField] private int gridHeight;
+    [SerializeField] private int initialSpawnX;   // unused on purpose
+    [SerializeField] private int initialSpawnY;   // unused on purpose
 
 
     //input 
@@ -45,7 +39,7 @@ public class SnakeController : MonoBehaviour
 
 
     //grid related  ;
-    int[,] grid ;  //    1 snake  5 food  15 special fodd  0 empty    -1 barrier
+    int[,] grid;  //    1 snake  5 food  15 special fodd  0 empty    -1 barrier
     private float cellSizeX; //calcultated not given 
     private float cellSizeY;
 
@@ -56,11 +50,11 @@ public class SnakeController : MonoBehaviour
 
     float timer = 0;
     int timeUntilMove = 1;  // in seconds
-    List<(int x , int y)> snakeArray = new List<(int x, int y)>();
-    List <GameObject> renderedSnakeArray = new List<GameObject> ();
+    List<(int x, int y)> snakeArray = new List<(int x, int y)>();
+    List<GameObject> renderedSnakeArray = new List<GameObject>();
 
 
-    bool playing; 
+    bool playing;
 
     GameObject SnakeHead;
     private GameObject currentFood;
@@ -70,16 +64,22 @@ public class SnakeController : MonoBehaviour
 
     private void Awake()
     {
-        worldHeight= Camera.main.orthographicSize * 2f;
-        worldWidth = worldHeight* Camera.main.aspect;
 
-        cellSizeX = worldWidth / gridWidth; 
-        cellSizeY = worldHeight/ gridHeight;
+        speed = SettingsManager.Instance.speed;
+        gridWidth = SettingsManager.Instance.gridWidth;
+        gridHeight = SettingsManager.Instance.gridHeight;
+        initialSpawnX = SettingsManager.Instance.initialSpawnX;
+        initialSpawnY = SettingsManager.Instance.initialSpawnY;
+
+        worldHeight = Camera.main.orthographicSize * 2f;
+        worldWidth = worldHeight * Camera.main.aspect;
+
+        cellSizeX = worldWidth / gridWidth;
+        cellSizeY = worldHeight / gridHeight;
 
         grid = new int[gridWidth, gridHeight];  // not sure about this , shoudld i rather do grid = new int[gridWidth , gridHeight]; bcz i will like to accss grid[x,y ] ,
-                                                 // bcz usually the standard , like unity inspector starts with x then y , but then again usally in arrays and
-                                                 // matrix we start with lines then columsn , this is confusing 
-                                                 
+                                                // bcz usually the standard , like unity inspector starts with x then y , but then again usally in arrays and
+                                                // matrix we start with lines then columsn , this is confusing 
 
     }
 
@@ -97,7 +97,7 @@ public class SnakeController : MonoBehaviour
 
         if (direction == MyDirection.right || direction == MyDirection.left)
         {
-            if (vertical == 1)  direction = MyDirection.up;
+            if (vertical == 1) direction = MyDirection.up;
 
             if (vertical == -1) direction = MyDirection.down; // fema mochkla mazelt fil direction 
         }
@@ -108,23 +108,23 @@ public class SnakeController : MonoBehaviour
             if (horizontal == -1) direction = MyDirection.left;
         }
 
-        Debug.Log(direction); 
+        Debug.Log(direction);
     }
     private void FixedUpdate()
     {
         if (!playing) return;
-        MoveSnake(); 
+        MoveSnake();
 
     }
 
-    private Vector3 CellToWorld( int x , int y)
+    private Vector3 CellToWorld(int x, int y)
     {
         Vector3 vec3 = Vector3.zero;
 
-        vec3.x = x * cellSizeX - (float)worldWidth/2  + cellSizeX/2;
-        vec3.y = y * cellSizeY - (float)worldHeight/2 +  cellSizeY/2 ; 
+        vec3.x = x * cellSizeX - (float)worldWidth / 2 + cellSizeX / 2;
+        vec3.y = y * cellSizeY - (float)worldHeight / 2 + cellSizeY / 2;
 
-        return vec3 ;
+        return vec3;
     }
 
     private void MoveSnake()
@@ -142,27 +142,27 @@ public class SnakeController : MonoBehaviour
 
             if (direction == MyDirection.right)
             {
-                
+
                 if (snakeArray[^1].x + 1 == gridWidth) x1 = 0;
-                else x1 = snakeArray[^1].x+1;
+                else x1 = snakeArray[^1].x + 1;
 
                 y1 = snakeArray[^1].y;
 
                 if (grid[x1, y1] == 0) ResolveEmptyAhead(x1, y1);      // the head always last 
 
-                else if ( (grid[x1, y1] == 1) && ( (x1, y1) != (snakeArray[0].x , snakeArray[0].y))  ) ResolveSnakeAhead(x1, y1);  // TODO ! feme mochkla snake o head yupdato fard wa9t , false +
-                    
+                else if ((grid[x1, y1] == 1) && ((x1, y1) != (snakeArray[0].x, snakeArray[0].y))) ResolveSnakeAhead(x1, y1);  // TODO ! feme mochkla snake o head yupdato fard wa9t , false +
+
                 else if (grid[x1, y1] == 5) ResolveFoodAhead(x1, y1);
 
 
             }
 
 
-            else if (direction == MyDirection.left) 
+            else if (direction == MyDirection.left)
             {
 
-                if (snakeArray[^1].x - 1 == -1) x1 = gridWidth-1;
-                else x1 = snakeArray[^1].x -1;
+                if (snakeArray[^1].x - 1 == -1) x1 = gridWidth - 1;
+                else x1 = snakeArray[^1].x - 1;
 
                 y1 = snakeArray[^1].y;
 
@@ -176,7 +176,7 @@ public class SnakeController : MonoBehaviour
 
             }
 
-            else if (direction == MyDirection.up) 
+            else if (direction == MyDirection.up)
             {
 
                 if (snakeArray[^1].y + 1 == gridHeight) y1 = 0;
@@ -192,10 +192,10 @@ public class SnakeController : MonoBehaviour
 
             }
 
-            else if (direction == MyDirection.down) 
+            else if (direction == MyDirection.down)
             {
 
-                if (snakeArray[^1].y - 1 == -1) y1 = gridHeight-1;
+                if (snakeArray[^1].y - 1 == -1) y1 = gridHeight - 1;
                 else y1 = snakeArray[^1].y - 1;
 
                 x1 = snakeArray[^1].x;
@@ -217,27 +217,27 @@ public class SnakeController : MonoBehaviour
 
     private void GenerateFood()
     {
-        Debug.Log("food getting called "); 
-        List< ( int x , int y )>  zeroList = new List< ( int x , int y )>();
+        Debug.Log("food getting called ");
+        List<(int x, int y)> zeroList = new List<(int x, int y)>();
 
-        for ( int i = 0; i < gridWidth; i++)
-        
+        for (int i = 0; i < gridWidth; i++)
+
         {
-            for ( int j = 0; j < gridHeight; j++)
+            for (int j = 0; j < gridHeight; j++)
             {
-                if(grid[i, j] == 0) zeroList.Add( ( i , j ) );
+                if (grid[i, j] == 0) zeroList.Add((i, j));
             }
         }
 
-        int randomIndex = UnityEngine.Random.Range( 0, zeroList.Count );
+        int randomIndex = UnityEngine.Random.Range(0, zeroList.Count);
 
-        var ( x , y) = zeroList[randomIndex];
+        var (x, y) = zeroList[randomIndex];
 
         grid[x, y] = 5; // 5 for food
 
         GameObject food = Instantiate(snakeFoodPrefab, CellToWorld(x, y), Quaternion.identity);
 
-        
+
 
         food.transform.localScale = new Vector3(cellSizeX, cellSizeY, 0);
 
@@ -251,7 +251,7 @@ public class SnakeController : MonoBehaviour
         //grid update
 
         grid[x, y] = 1;
-        grid[snakeArray[0].x , snakeArray[0].y] = 0;
+        grid[snakeArray[0].x, snakeArray[0].y] = 0;
 
 
 
@@ -261,7 +261,7 @@ public class SnakeController : MonoBehaviour
 
             snakeArray[0] = (x, y);
 
-            renderedSnakeArray[0].transform.position =  CellToWorld(x, y) ;
+            renderedSnakeArray[0].transform.position = CellToWorld(x, y);
 
             return; //how to test ResolveEmptyAhead before implementing Resolve food ?
 
@@ -270,7 +270,7 @@ public class SnakeController : MonoBehaviour
 
         // logic array management
 
-        snakeArray.Add((x,y));
+        snakeArray.Add((x, y));
         snakeArray.RemoveAt(0);
 
 
@@ -278,7 +278,7 @@ public class SnakeController : MonoBehaviour
 
 
         GameObject tail = renderedSnakeArray[0];   //getting the  tail to reuse it 
-        renderedSnakeArray.RemoveAt(0);    
+        renderedSnakeArray.RemoveAt(0);
 
         tail.transform.position = CellToWorld(x, y);
         tail.GetComponent<SpriteRenderer>().color = Color.red;
@@ -288,7 +288,7 @@ public class SnakeController : MonoBehaviour
 
 
 
-        
+
 
 
 
@@ -296,26 +296,26 @@ public class SnakeController : MonoBehaviour
     private void ResolveFoodAhead(int x, int y)
     {
         //grid management
-        grid[x,y] = 1;
+        grid[x, y] = 1;
 
         //array management
 
-        snakeArray.Add((x,y));
+        snakeArray.Add((x, y));
 
         //GO management
 
         GameObject newHead = Instantiate(snakeHeadPrefab, CellToWorld(x, y), Quaternion.identity);
         renderedSnakeArray[^1].GetComponent<SpriteRenderer>().color = Color.blue;
-        newHead.transform.localScale = new Vector3(cellSizeX,cellSizeY,0);
+        newHead.transform.localScale = new Vector3(cellSizeX, cellSizeY, 0);
         renderedSnakeArray.Add(newHead);
 
         //add score 
-        myUI.AddScore(); 
+        myUI.AddScore();
 
         //generate food 
 
         Destroy(currentFood);
-        GenerateFood(); 
+        GenerateFood();
     }
 
     private void ResolveBarrierAhead(int x, int y)
@@ -326,7 +326,7 @@ public class SnakeController : MonoBehaviour
     private void ResolveSnakeAhead(int x, int y)
     {
         Time.timeScale = 0;
-        playing = false; 
+        playing = false;
         myUI.ShowGameOverPanel();
 
     }
@@ -368,7 +368,7 @@ public class SnakeController : MonoBehaviour
 
         //reset score
         myUI.ResetScore();
-        Invoke("Begining", 0.5f); 
+        Invoke("Begining", 0.5f);
 
 
 
@@ -384,12 +384,10 @@ public class SnakeController : MonoBehaviour
         renderedSnakeArray.Add(SnakeHead);
         SnakeHead.transform.localScale = new Vector3(cellSizeX, cellSizeY, 0);
         GenerateFood();
-        playing = true; 
+        playing = true;
 
     }
-
-
-} 
+}
 
 public enum MyDirection
 {

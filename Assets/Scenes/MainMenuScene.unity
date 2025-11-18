@@ -895,8 +895,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 476141030}
-        m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
+      - m_Target: {fileID: 1440646797}
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: SetInitialSpawnX
         m_Mode: 0
         m_Arguments:
@@ -1187,7 +1187,7 @@ GameObject:
   - component: {fileID: 431134239}
   - component: {fileID: 431134240}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: S Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1266,21 +1266,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1971842701}
-        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
-        m_MethodName: SetText
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: '{0}'
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SliderToText, Assembly-CSharp
-        m_MethodName: ShowFloat
+      - m_Target: {fileID: 1440646797}
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: SetSpeed
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2575,7 +2563,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 740758684}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2923,8 +2911,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 476141030}
-        m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
+      - m_Target: {fileID: 1440646797}
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: SetAiMode
         m_Mode: 3
         m_Arguments:
@@ -3548,8 +3536,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 476141030}
-        m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
+      - m_Target: {fileID: 1440646797}
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: SetInitialSpawnY
         m_Mode: 0
         m_Arguments:
@@ -4018,8 +4006,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 476141030}
-        m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
+      - m_Target: {fileID: 1440646797}
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: SetGridWidth
         m_Mode: 0
         m_Arguments:
@@ -4817,8 +4805,13 @@ MonoBehaviour:
   mainMenu: {fileID: 147824389}
   AISettings: {fileID: 505959383}
   HumanSetting: {fileID: 1657329159}
+  SpeedSlide: {fileID: 431134240}
   SpawnXSLide: {fileID: 350390156}
   SpawnYSLide: {fileID: 951242125}
+  GridXSlide: {fileID: 1101422927}
+  GridYSlide: {fileID: 951242125}
+  AI_BF: {fileID: 793312610}
+  AI_A: {fileID: 1657243608}
 --- !u!4 &1440646798
 Transform:
   m_ObjectHideFlags: 0
@@ -5130,8 +5123,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 476141030}
-        m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
+      - m_Target: {fileID: 1440646797}
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: SetAiMode
         m_Mode: 3
         m_Arguments:
@@ -5172,8 +5165,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1994375093}
-  - {fileID: 740758685}
   - {fileID: 336588164}
+  - {fileID: 740758685}
   - {fileID: 492251753}
   - {fileID: 1919496802}
   m_Father: {fileID: 1222326926}
@@ -5672,8 +5665,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 476141030}
-        m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
+      - m_Target: {fileID: 1440646797}
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: SetGridHeight
         m_Mode: 0
         m_Arguments:

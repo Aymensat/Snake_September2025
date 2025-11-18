@@ -23,27 +23,9 @@ public class SettingsManager : MonoBehaviour
     public string AIMode = "BF";
 
 
-    public void SetSpeed(float speed) { this.speed = speed; }
-    public void SetGridWidth(float gridWidth)
-    {
-        this.gridWidth = Mathf.RoundToInt(gridWidth);
-        MyUI.SpawnXSLide.maxValue = gridWidth;
-    }
-
-    public void SetGridHeight(float gridHeight)
-    {
-        this.gridHeight = Mathf.RoundToInt(gridHeight);
-        MyUI.SpawnYSLide.maxValue = gridHeight;
-    }
-    public void SetInitialSpawnX(float initialSpawnX) { this.initialSpawnX = Mathf.RoundToInt(initialSpawnX);
-        MyUI.SpawnXSLide.maxValue = gridWidth;
-    }
-    public void SetInitialSpawnY(float initialSpawnY) { this.initialSpawnY = Mathf.RoundToInt(initialSpawnY);
-        MyUI.SpawnYSLide.maxValue = gridHeight;
-    }
 
     private void Awake()
-    {
+    {   
         if (Instance == null)
         {
             Instance = this;
@@ -54,16 +36,4 @@ public class SettingsManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    public void SetAiMode(int id)
-    {
-
-        if (id == 1) AIMode = "BF";
-        else if (id == 2) AIMode = "A*";
-        return;
-
-    }
-
-
-
 }

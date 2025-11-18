@@ -25,8 +25,18 @@ public class UIController : MonoBehaviour
     public GameObject AISettings;
     public GameObject HumanSetting; //not used for now , just ON.OFf the AI one
 
+
+    //settings UI
+    //Sliders
+    public Slider SpeedSlide;
     public Slider SpawnXSLide;
     public Slider SpawnYSLide;
+    public Slider GridXSlide;
+    public Slider GridYSlide;
+    //cehckbox
+    public Toggle AI_BF;
+    public Toggle AI_A;
+
 
 
 
@@ -68,7 +78,12 @@ public class UIController : MonoBehaviour
         showHumanSettings();
         settingMenu.SetActive(true);
         mainMenu.SetActive(false);
+
+        LoadCurrentSettings();
+
     }
+
+
 
     public void showMainMenu()
     {
@@ -79,13 +94,13 @@ public class UIController : MonoBehaviour
 
     public void showAISEttings()
     {
-        Debug.Log("ai setting on");
+        //Debug.Log("ai setting on");
         AISettings.SetActive(true);
     }
 
     public void showHumanSettings()
     {
-        Debug.Log("ai setting off");
+        //Debug.Log("ai setting off");
         AISettings.SetActive(false);
     }
 
@@ -93,6 +108,59 @@ public class UIController : MonoBehaviour
     public void LoadHumanScene()
     {
         SceneManager.LoadScene("GameScene");
+    }
+
+
+
+    private void LoadCurrentSettings()
+    {
+        Debug.Log("Load getting called..."); 
+
+        SpawnXSLide.maxValue = SettingsManager.Instance.gridWidth;
+        SpawnYSLide.maxValue = SettingsManager.Instance.gridHeight;
+
+        SpeedSlide.value = SettingsManager.Instance.speed;
+
+        GridXSlide.value = SettingsManager.Instance.gridWidth;
+        GridYSlide.value = SettingsManager.Instance.gridHeight;
+
+        SpawnXSLide.value = SettingsManager.Instance.initialSpawnX;
+        SpawnYSLide.value=SettingsManager.Instance.initialSpawnY;
+    }
+
+
+    public void SetSpeed(float speed) { SettingsManager.Instance.speed = speed; }
+    public void SetGridWidth(float gridWidth)
+    {
+        SettingsManager.Instance.gridWidth = Mathf.RoundToInt(gridWidth);
+        SpawnXSLide.maxValue = gridWidth;
+    }
+
+    public void SetGridHeight(float gridHeight)
+    {
+        SettingsManager.Instance.gridHeight = Mathf.RoundToInt(gridHeight);
+        SpawnYSLide.maxValue = gridHeight;
+    }
+    public void SetInitialSpawnX(float initialSpawnX)
+    {
+        SettingsManager.Instance.initialSpawnX = Mathf.RoundToInt(initialSpawnX);
+        SpawnXSLide.maxValue = SettingsManager.Instance.gridWidth;
+    }
+    public void SetInitialSpawnY(float initialSpawnY)
+    {
+        SettingsManager.Instance.initialSpawnY = Mathf.RoundToInt(initialSpawnY);
+        SpawnYSLide.maxValue = SettingsManager.Instance.gridHeight;
+    }
+
+
+
+    public void SetAiMode(int id)
+    {
+
+        if (id == 1) SettingsManager.Instance.AIMode = "BF";
+        else if (id == 2) SettingsManager.Instance.AIMode = "A*";
+        return;
+
     }
 
 
