@@ -46,7 +46,8 @@ public class SnakeController : MonoBehaviour
     // runtime thingies
 
     [SerializeField]
-    MyDirection direction = MyDirection.right;
+    MyDirection inputDirection = MyDirection.right;
+    public MyDirection movingDirection ;
 
     float timer = 0;
     int timeUntilMove = 1;  // in seconds
@@ -95,20 +96,20 @@ public class SnakeController : MonoBehaviour
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
 
-        if (direction == MyDirection.right || direction == MyDirection.left)
+        if (movingDirection == MyDirection.right || movingDirection == MyDirection.left)
         {
-            if (vertical == 1) direction = MyDirection.up;
+            if (vertical == 1) inputDirection = MyDirection.up;
 
-            if (vertical == -1) direction = MyDirection.down; // fema mochkla mazelt fil direction 
+            if (vertical == -1) inputDirection = MyDirection.down; // fema mochkla mazelt fil inputDirection 
         }
 
-        if (direction == MyDirection.up || direction == MyDirection.down)
+        if (movingDirection == MyDirection.up || movingDirection == MyDirection.down)
         {
-            if (horizontal == 1) direction = MyDirection.right;
-            if (horizontal == -1) direction = MyDirection.left;
+            if (horizontal == 1) inputDirection = MyDirection.right;
+            if (horizontal == -1) inputDirection = MyDirection.left;
         }
 
-        Debug.Log(direction);
+        Debug.Log(inputDirection);
     }
     private void FixedUpdate()
     {
@@ -129,6 +130,7 @@ public class SnakeController : MonoBehaviour
 
     private void MoveSnake()
     {
+        (int x_bf , int y_bf) = snakeArray[^1];
 
         int x1, y1;
         //reletex to fix updated which is standard to 0.02 s across all  hardwards 
@@ -140,7 +142,7 @@ public class SnakeController : MonoBehaviour
         {
             timer = 0;
 
-            if (direction == MyDirection.right)
+            if (inputDirection == MyDirection.right)
             {
 
                 if (snakeArray[^1].x + 1 == gridWidth) x1 = 0;
@@ -158,7 +160,7 @@ public class SnakeController : MonoBehaviour
             }
 
 
-            else if (direction == MyDirection.left)
+            else if (inputDirection == MyDirection.left)
             {
 
                 if (snakeArray[^1].x - 1 == -1) x1 = gridWidth - 1;
@@ -176,7 +178,7 @@ public class SnakeController : MonoBehaviour
 
             }
 
-            else if (direction == MyDirection.up)
+            else if (inputDirection == MyDirection.up)
             {
 
                 if (snakeArray[^1].y + 1 == gridHeight) y1 = 0;
@@ -192,7 +194,7 @@ public class SnakeController : MonoBehaviour
 
             }
 
-            else if (direction == MyDirection.down)
+            else if (inputDirection == MyDirection.down)
             {
 
                 if (snakeArray[^1].y - 1 == -1) y1 = gridHeight - 1;
@@ -208,6 +210,13 @@ public class SnakeController : MonoBehaviour
                 else if (grid[x1, y1] == 5) ResolveFoodAhead(x1, y1);
 
             }
+
+            (int x_af, int y_af) = snakeArray[^1];
+
+            if (x_af - x_bf > 0) movingDirection = MyDirection.right;
+            if(x_af - x_bf < 0) movingDirection = MyDirection.left;
+            if (y_af - y_bf > 0) movingDirection = MyDirection.up; 
+            if(y_af - y_bf < 0) movingDirection=MyDirection.down;
 
 
         }
