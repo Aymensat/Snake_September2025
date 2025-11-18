@@ -7,20 +7,12 @@ public class SettingsManager : MonoBehaviour
     public UIController MyUI;
 
 
-    public float speed = 1.0f;
-
-
-    public int gridWidth = 40;
-
-    public int gridHeight = 30;
-
-
-    public int initialSpawnX = 0;
-
-    public int initialSpawnY = 0;
-
-
-    public string AIMode = "BF";
+    public float speed;
+    public int gridWidth;
+    public int gridHeight;
+    public int initialSpawnX;
+    public int initialSpawnY;
+    public string AIMode;
 
 
 
@@ -35,5 +27,12 @@ public class SettingsManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        speed = 4.0f;
+        gridWidth = 40;
+        gridHeight = 10;
+        initialSpawnX = 0;
+        initialSpawnY = 0;
+        AIMode = "BF";
     }
 }

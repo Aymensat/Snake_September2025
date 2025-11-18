@@ -8,8 +8,7 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour
 {
 
-    public static UIController instance;
-
+    
     [SerializeField]
     private GameObject gameOverPanel;
 
@@ -113,19 +112,19 @@ public class UIController : MonoBehaviour
 
 
     private void LoadCurrentSettings()
-    {
+    {   
         Debug.Log("Load getting called..."); 
 
-        SpawnXSLide.maxValue = SettingsManager.Instance.gridWidth;
-        SpawnYSLide.maxValue = SettingsManager.Instance.gridHeight;
+        SpawnXSLide.maxValue =SettingsManager.Instance.gridWidth -1;
+        SpawnYSLide.maxValue = SettingsManager.Instance.gridHeight-1;
 
-        SpeedSlide.value = SettingsManager.Instance.speed;
+        SpeedSlide.value = (SettingsManager.Instance.speed);
 
-        GridXSlide.value = SettingsManager.Instance.gridWidth;
-        GridYSlide.value = SettingsManager.Instance.gridHeight;
+        GridXSlide.value = (SettingsManager.Instance.gridWidth);
+        GridYSlide.value = (SettingsManager.Instance.gridHeight);
 
-        SpawnXSLide.value = SettingsManager.Instance.initialSpawnX;
-        SpawnYSLide.value=SettingsManager.Instance.initialSpawnY;
+        SpawnXSLide.value = (SettingsManager.Instance.initialSpawnX);
+        SpawnYSLide.value = (SettingsManager.Instance.initialSpawnY);
     }
 
 
@@ -143,13 +142,16 @@ public class UIController : MonoBehaviour
     }
     public void SetInitialSpawnX(float initialSpawnX)
     {
+
+
         SettingsManager.Instance.initialSpawnX = Mathf.RoundToInt(initialSpawnX);
-        SpawnXSLide.maxValue = SettingsManager.Instance.gridWidth;
+        SpawnXSLide.maxValue = SettingsManager.Instance.gridWidth - 1;
     }
     public void SetInitialSpawnY(float initialSpawnY)
     {
         SettingsManager.Instance.initialSpawnY = Mathf.RoundToInt(initialSpawnY);
-        SpawnYSLide.maxValue = SettingsManager.Instance.gridHeight;
+        Debug.Log("??" + initialSpawnY); 
+        SpawnYSLide.maxValue = SettingsManager.Instance.gridHeight-1;
     }
 
 

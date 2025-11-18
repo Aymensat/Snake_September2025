@@ -9,7 +9,12 @@ using UnityEngine;
 
 public class SnakeController : MonoBehaviour
 {
+    //TODO snake tail  handeling fihom il kol 
+    
 
+    //TODO 3awwid ifhom 3leh new grid [ x, y] not [y , x] 
+    //o food generation logic , 
+    // o basically 3awid a9ra il code 
 
     [Header("Prefab objects")]
     [SerializeField]
@@ -152,7 +157,7 @@ public class SnakeController : MonoBehaviour
 
                 if (grid[x1, y1] == 0) ResolveEmptyAhead(x1, y1);      // the head always last 
 
-                else if ((grid[x1, y1] == 1) && ((x1, y1) != (snakeArray[0].x, snakeArray[0].y))) ResolveSnakeAhead(x1, y1);  // TODO ! feme mochkla snake o head yupdato fard wa9t , false +
+                else if ((grid[x1, y1] == 1) && ((x1, y1) != (snakeArray[0].x, snakeArray[0].y))) ResolveSnakeAhead(x1, y1);  
 
                 else if (grid[x1, y1] == 5) ResolveFoodAhead(x1, y1);
 
@@ -171,7 +176,7 @@ public class SnakeController : MonoBehaviour
 
                 if (grid[x1, y1] == 0) ResolveEmptyAhead(x1, y1);      // the head always last 
 
-                else if (grid[x1, y1] == 1) ResolveSnakeAhead(x1, y1);
+                else if ((grid[x1, y1] == 1) && ((x1, y1) != (snakeArray[0].x, snakeArray[0].y))) ResolveSnakeAhead(x1, y1);
 
                 else if (grid[x1, y1] == 5) ResolveFoodAhead(x1, y1);
 
@@ -188,7 +193,7 @@ public class SnakeController : MonoBehaviour
 
                 if (grid[x1, y1] == 0) ResolveEmptyAhead(x1, y1);      // the head always last 
 
-                else if (grid[x1, y1] == 1) ResolveSnakeAhead(x1, y1);
+                else if ((grid[x1, y1] == 1) && ((x1, y1) != (snakeArray[0].x, snakeArray[0].y))) ResolveSnakeAhead(x1, y1);
 
                 else if (grid[x1, y1] == 5) ResolveFoodAhead(x1, y1);
 
@@ -205,7 +210,7 @@ public class SnakeController : MonoBehaviour
 
                 if (grid[x1, y1] == 0) ResolveEmptyAhead(x1, y1);      // the head always last 
 
-                else if (grid[x1, y1] == 1) ResolveSnakeAhead(x1, y1);
+                else if ((grid[x1, y1] == 1) && ((x1, y1) != (snakeArray[0].x, snakeArray[0].y))) ResolveSnakeAhead(x1, y1);
 
                 else if (grid[x1, y1] == 5) ResolveFoodAhead(x1, y1);
 
@@ -387,9 +392,9 @@ public class SnakeController : MonoBehaviour
 
     private void Begining()
     {
-        SnakeHead = Instantiate(snakeHeadPrefab, CellToWorld(0, 0), Quaternion.identity);
-        grid[0, 0] = 1;
-        snakeArray.Add((0, 0));
+        SnakeHead = Instantiate(snakeHeadPrefab, CellToWorld(initialSpawnX, initialSpawnY), Quaternion.identity);
+        grid[initialSpawnX, initialSpawnY] = 1;
+        snakeArray.Add((initialSpawnX, initialSpawnY));
         renderedSnakeArray.Add(SnakeHead);
         SnakeHead.transform.localScale = new Vector3(cellSizeX, cellSizeY, 0);
         GenerateFood();
