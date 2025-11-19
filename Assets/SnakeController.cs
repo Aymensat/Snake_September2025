@@ -25,9 +25,9 @@ public class SnakeController : MonoBehaviour
 
 
     [Header("gameplay specifics customization..!")]
-    [SerializeField] private float speed;
-    [SerializeField] private int gridWidth;
-    [SerializeField] private int gridHeight;
+    [SerializeField] public float speed;
+    [SerializeField] public int gridWidth;
+    [SerializeField] public int gridHeight;
     [SerializeField] private int initialSpawnX;   // unused on purpose
     [SerializeField] private int initialSpawnY;   // unused on purpose
 
@@ -51,12 +51,12 @@ public class SnakeController : MonoBehaviour
     // runtime thingies
 
     [SerializeField]
-    MyDirection inputDirection = MyDirection.right;
+    public MyDirection inputDirection = MyDirection.right;
     public MyDirection movingDirection ;
 
-    float timer = 0;
-    int timeUntilMove = 1;  // in seconds
-    List<(int x, int y)> snakeArray = new List<(int x, int y)>();
+    public float timer = 0;
+    public int timeUntilMove = 1;  // in seconds
+    public List<(int x, int y)> snakeArray = new List<(int x, int y)>();
     List<GameObject> renderedSnakeArray = new List<GameObject>();
 
 
@@ -114,7 +114,7 @@ public class SnakeController : MonoBehaviour
             if (horizontal == -1) inputDirection = MyDirection.left;
         }
 
-        Debug.Log(inputDirection);
+        //Debug.Log(inputDirection);
     }
     private void FixedUpdate()
     {

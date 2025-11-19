@@ -106,6 +106,13 @@ public class UIController : MonoBehaviour
 
     public void LoadHumanScene()
     {
+        SettingsManager.Instance.isAi = false;
+        SceneManager.LoadScene("GameScene");
+    }
+        
+    public void LoadAiScene()
+    {
+        SettingsManager.Instance.isAi = true ;
         SceneManager.LoadScene("GameScene");
     }
 
@@ -163,6 +170,11 @@ public class UIController : MonoBehaviour
         else if (id == 2) SettingsManager.Instance.AIMode = "A*";
         return;
 
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 
 

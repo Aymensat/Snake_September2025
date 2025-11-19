@@ -13,7 +13,7 @@ public class SettingsManager : MonoBehaviour
     public int initialSpawnX;
     public int initialSpawnY;
     public string AIMode;
-
+    public bool isAi; 
 
 
     private void Awake()
@@ -34,5 +34,6 @@ public class SettingsManager : MonoBehaviour
         initialSpawnX = 0;
         initialSpawnY = 0;
         AIMode = "BF";
+        isAi = false;
     }
 }
