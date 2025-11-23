@@ -1,28 +1,32 @@
-using Unity.VisualScripting;
-using UnityEngine;
+    using Unity.VisualScripting;
+    using UnityEngine;
 
-public class AI_manager : MonoBehaviour
-{
-
-    public SnakeController cntrl;
-
-    private MyDirection prevDir;
-
-
-
-    private void OnEnable()
+    public class AI_manager : MonoBehaviour
     {
-        this.enabled = SettingsManager.Instance.isAi;
-    }
 
-    private void Update()
+        public SnakeController cntrl;
+
+        private MyDirection prevDir;
 
 
-    {
-        Debug.Log("testing " + (cntrl.timer * cntrl.speed - cntrl.timeUntilMove / 2));
 
-        if (Mathf.Abs(cntrl.timer * cntrl.speed - cntrl.timeUntilMove / 2) < (0.45)) 
+        private void OnEnable()
         {
+            this.enabled = SettingsManager.Instance.isAi;
+            cntrl.afterMove += Decide; 
+
+        }
+
+        private void OnDisable()
+        {
+            cntrl.afterMove -= Decide;
+        }
+
+        private void Decide()
+
+
+        {
+
             Debug.Log("forca ??"); 
             if ((cntrl.movingDirection == MyDirection.right) && (cntrl.snakeArray[^1].x == cntrl.gridWidth - 1))
             {
@@ -53,6 +57,6 @@ public class AI_manager : MonoBehaviour
 
         }
 
-    }
+    
 
-}
+    }

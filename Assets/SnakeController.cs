@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.ConstrainedExecution;
 using JetBrains.Annotations;
+using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -68,6 +69,8 @@ public class SnakeController : MonoBehaviour
 
     public UIController myUI;
 
+
+    public  event Action afterMove; 
     private void Awake()
     {
 
@@ -131,6 +134,7 @@ public class SnakeController : MonoBehaviour
         vec3.y = y * cellSizeY - (float)worldHeight / 2 + cellSizeY / 2;
 
         return vec3;
+
     }
 
     private void MoveSnake()
@@ -223,8 +227,12 @@ public class SnakeController : MonoBehaviour
             if (y_af - y_bf > 0) movingDirection = MyDirection.up; 
             if(y_af - y_bf < 0) movingDirection=MyDirection.down;
 
+            afterMove?.Invoke();
+
 
         }
+
+
     }
 
 
